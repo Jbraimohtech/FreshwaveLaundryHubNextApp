@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
-import { services } from "@/lib/site-data";
+import { connection } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { presentService } from "@/lib/service-presenter";
 import { ButtonLink, PageHero, ServiceCard } from "@/components/site-ui";
 import Reveal from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Laundry & dry cleaning services",
   description:
-    "Explore FreshWave wash & fold, dry cleaning, wash & press, bedding care, and commercial laundry services.",
+    "Explore FreshFold wash & fold, dry cleaning, wash & press, bedding care, and commercial laundry services.",
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  await connection();
+  const databaseServices = await prisma.service.findMany({
+    where: { active: true },
+    orderBy: { createdAt: "asc" },
+  });
+  const services = databaseServices.map(presentService);
+
   return (
     <>
       <PageHero

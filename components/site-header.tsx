@@ -1,14 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, Waves, X } from "lucide-react";
 import { navigation } from "@/lib/site-data";
 
 export default function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#e6ece7]/90 bg-[#fbfcf8]/95 backdrop-blur-xl">
@@ -16,7 +14,7 @@ export default function SiteHeader() {
         <Link
           href="/"
           className="flex items-center gap-2.5"
-          aria-label="FreshWave LaundryHub home"
+          aria-label="FreshFold Laundry home"
           onClick={() => setMenuOpen(false)}
         >
           <span className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-[#116c83] text-white">
@@ -24,10 +22,10 @@ export default function SiteHeader() {
           </span>
           <span className="leading-tight">
             <span className="block text-[15px] font-bold tracking-[-.04em] text-[#18343d]">
-              FreshWave
+              FreshFold
             </span>
             <span className="block text-[10px] font-medium tracking-[.11em] text-[#769087]">
-              LAUNDRYHUB
+              LAUNDRY
             </span>
           </span>
         </Link>
@@ -40,10 +38,7 @@ export default function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              aria-current={pathname === item.href ? "page" : undefined}
-              className={`text-[13px] font-medium transition hover:text-[#116c83] ${
-                pathname === item.href ? "text-[#116c83]" : "text-[#52656b]"
-              }`}
+              className="text-[13px] font-medium text-[#52656b] transition hover:text-[#116c83]"
             >
               {item.label}
             </Link>
@@ -52,10 +47,10 @@ export default function SiteHeader() {
 
         <div className="hidden lg:block">
           <Link
-            href="/contact"
+            href="/login?callbackUrl=%2Fdashboard%2Forders%2Fnew"
             className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-[#116c83] px-5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(17,108,131,.15)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#0d5266]"
           >
-            Book a pickup
+            Sign in
             <span aria-hidden="true">→</span>
           </Link>
         </div>
@@ -85,15 +80,20 @@ export default function SiteHeader() {
               key={item.href}
               href={item.href}
               onClick={() => setMenuOpen(false)}
-              className={`block border-b border-[#edf1ed] py-3.5 text-sm font-medium ${
-                pathname === item.href ? "text-[#116c83]" : "text-[#52656b]"
-              }`}
+              className="block border-b border-[#edf1ed] py-3.5 text-sm font-medium text-[#52656b] transition hover:text-[#116c83]"
             >
               {item.label}
             </Link>
           ))}
           <Link
-            href="/contact"
+            href="/login"
+            onClick={() => setMenuOpen(false)}
+            className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-full border border-[#d8e2dc] text-sm font-semibold text-[#18333c]"
+          >
+            Sign in
+          </Link>
+          <Link
+            href="/login?callbackUrl=%2Fdashboard%2Forders%2Fnew"
             onClick={() => setMenuOpen(false)}
             className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#116c83] px-5 text-sm font-semibold text-white transition hover:bg-[#0d5266]"
           >

@@ -10,18 +10,18 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://freshwavelaundry.com"),
+  metadataBase: new URL("https://freshfoldlaundry.com"),
   title: {
-    default: "FreshWave LaundryHub | Laundry, made lighter",
-    template: "%s | FreshWave LaundryHub",
+    default: "FreshFold Laundry | Laundry, made lighter",
+    template: "%s | FreshFold Laundry",
   },
   description:
-    "Laundry day, taken care of. Thoughtful wash & fold, dry cleaning, and convenient pickup and delivery from FreshWave LaundryHub.",
+    "Laundry day, taken care of. Thoughtful wash & fold, dry cleaning, and convenient pickup and delivery from FreshFold Laundry.",
   openGraph: {
-    title: "FreshWave LaundryHub",
+    title: "FreshFold Laundry",
     description: "Laundry, made lighter. Fresh clothes, right on time.",
     type: "website",
-    siteName: "FreshWave LaundryHub",
+    siteName: "FreshFold Laundry",
   },
 };
 

@@ -4,9 +4,9 @@ import { ButtonLink, PageHero, SectionHeading } from "@/components/site-ui";
 import Reveal from "@/components/reveal";
 
 export const metadata: Metadata = {
-  title: "About FreshWave LaundryHub",
+  title: "About FreshFold Laundry",
   description:
-    "Learn about FreshWave LaundryHub's people-first approach to laundry, thoughtful garment care, and making everyday life a little lighter.",
+    "Learn about FreshFold Laundry's people-first approach to laundry, thoughtful garment care, and making everyday life a little lighter.",
 };
 
 const values = [
@@ -42,7 +42,7 @@ const team = [
   },
   {
     name: "Good work, good people",
-    role: "The FreshWave crew",
+    role: "The FreshFold crew",
     image:
       "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85",
   },
@@ -54,7 +54,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="A little about us"
         title="Life’s too full for laundry to take over."
-        description="FreshWave LaundryHub is built around a simple idea: laundry care should make your week feel lighter, never more complicated."
+        description="FreshFold Laundry is built around a simple idea: laundry care should make your week feel lighter, never more complicated."
       />
       <section className="page-shell grid gap-10 py-16 sm:py-24 lg:grid-cols-2 lg:gap-20">
         <Reveal>
@@ -63,7 +63,7 @@ export default function AboutPage() {
         </Reveal>
         <Reveal delay={0.08}>
           <p className="text-sm leading-7 text-[#63777e]">
-            FreshWave began with a familiar feeling: there was always another load to do, and never quite enough time. We set out to make the everyday errand feel different—more considered, more convenient, and a little kinder to your schedule.
+            FreshFold began with a familiar feeling: there was always another load to do, and never quite enough time. We set out to make the everyday errand feel different—more considered, more convenient, and a little kinder to your schedule.
           </p>
           <p className="mt-4 text-sm leading-7 text-[#63777e]">
             Today, we bring together thoughtful garment care and the ease of pickup and delivery. We’re here to give you one less thing to think about, and one more reason to enjoy the day ahead.
@@ -99,7 +99,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="Good people, good care"
             title="It takes a thoughtful team."
-            description="The friendly faces and careful hands behind your FreshWave experience."
+            description="The friendly faces and careful hands behind your FreshFold experience."
           />
           <UsersRound size={25} className="mb-1 text-[#116c83]" />
         </div>

@@ -2,12 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, Star } from "lucide-react";
+
+type PricingService = {
+  id: string;
+  name: string;
+  description: string;
+  category: string;
+  price: string;
+  unit: string;
+  minimumCharge: string;
+};
 
 const reviews = [
   {
     quote:
-      "I got my Sunday evenings back. FreshWave is easy to book, always on time, and my clothes come back beautifully folded.",
+      "I got my Sunday evenings back. FreshFold is easy to book, always on time, and my clothes come back beautifully folded.",
     name: "Maya R.",
     detail: "Weekly wash & fold",
     initials: "MR",
@@ -23,7 +33,7 @@ const reviews = [
     quote:
       "Dependable, friendly, and one less thing on my list. The little delivery updates are a lovely touch, too.",
     name: "Avery L.",
-    detail: "FreshWave customer",
+    detail: "FreshFold customer",
     initials: "AL",
   },
 ];
@@ -80,58 +90,14 @@ export function TestimonialSlider() {
   );
 }
 
-export function PricingChooser() {
+export function PricingChooser({ services }: { services: PricingService[] }) {
   const [business, setBusiness] = useState(false);
-  const residentialPlans = [
-    {
-      name: "The essentials",
-      price: "$29",
-      period: "/ pickup",
-      description: "A simple fresh start for your everyday laundry.",
-      features: ["Wash & fold up to 12 lb", "Free pickup & delivery", "Standard 48-hour return"],
-    },
-    {
-      name: "The weekly reset",
-      price: "$49",
-      period: "/ pickup",
-      description: "A little more breathing room in your week.",
-      features: ["Wash & fold up to 25 lb", "Free pickup & delivery", "Priority 24-hour return"],
-      featured: true,
-    },
-    {
-      name: "The whole hamper",
-      price: "$79",
-      period: "/ pickup",
-      description: "Room for busy homes and laundry mountains.",
-      features: ["Wash & fold up to 45 lb", "Free pickup & delivery", "Priority 24-hour return"],
-    },
-  ];
-
-  const businessPlans = [
-    {
-      name: "Small team",
-      price: "$99",
-      period: "/ week",
-      description: "A dependable start for a growing local business.",
-      features: ["Up to 50 lb weekly", "One scheduled pickup", "Consistent turnaround"],
-    },
-    {
-      name: "Steady service",
-      price: "$229",
-      period: "/ week",
-      description: "Built around your team’s regular laundry rhythm.",
-      features: ["Up to 150 lb weekly", "Two scheduled pickups", "Priority turnaround"],
-      featured: true,
-    },
-    {
-      name: "Custom care",
-      price: "Let’s talk",
-      period: "",
-      description: "Flexible support for more complex laundry needs.",
-      features: ["Volume-based pricing", "Pickup schedule that fits", "Dedicated service plan"],
-    },
-  ];
-  const plans = business ? businessPlans : residentialPlans;
+  const plans = services.filter((service) => {
+    const category = service.category.toLowerCase();
+    return business
+      ? category.includes("business") || category.includes("commercial")
+      : !category.includes("business") && !category.includes("commercial");
+  });
 
   return (
     <>
@@ -163,54 +129,42 @@ export function PricingChooser() {
           </button>
         </div>
       </div>
-      <div className="mt-8 grid gap-5 lg:grid-cols-3">
-        {plans.map((plan) => (
+      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {plans.map((plan, index) => (
           <article
             key={plan.name}
-            className={`relative flex h-full flex-col rounded-[22px] border p-7 ${
-              plan.featured
-                ? "border-[#116c83] bg-[#123d4b] text-white shadow-[0_24px_60px_rgba(18,61,75,.15)]"
-                : "border-[#e5ece7] bg-white"
-            }`}
+            className="flex h-full flex-col rounded-[22px] border border-[#e5ece7] bg-white p-7"
           >
-            {plan.featured && (
-              <span className="absolute right-6 top-6 rounded-full bg-[#d0ead8] px-3 py-1 text-[10px] font-bold uppercase tracking-[.12em] text-[#285c45]">
-                Most popular
-              </span>
-            )}
-            <p className={`text-sm font-semibold ${plan.featured ? "text-[#a9d9c2]" : "text-[#116c83]"}`}>
-              {plan.name}
+            <p className="text-sm font-semibold text-[#116c83]">{plan.category}</p>
+            <h3 className="mt-2 text-xl font-semibold tracking-[-.035em]">{plan.name}</h3>
+            <p className="mt-5 text-4xl font-medium tracking-[-.07em] text-[#17343d]">
+              ${plan.price}
+              <span className="ml-1 text-sm font-normal tracking-normal text-[#82938e]">/ {plan.unit.replace(/^per\s+/i, "")}</span>
             </p>
-            <p className={`mt-5 text-4xl font-medium tracking-[-.07em] ${plan.featured ? "text-white" : "text-[#17343d]"}`}>
-              {plan.price}
-              <span className={`ml-1 text-sm font-normal tracking-normal ${plan.featured ? "text-white/60" : "text-[#82938e]"}`}>
-                {plan.period}
-              </span>
+            <p className="mt-3 min-h-12 text-sm leading-6 text-[#63777e]">{plan.description}</p>
+            <p className="mt-4 text-xs leading-5 text-[#82938e]">
+              {Number(plan.minimumCharge) > 0
+                ? `Minimum order ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(plan.minimumCharge))}.`
+                : "No minimum service charge."}
             </p>
-            <p className={`mt-3 min-h-12 text-sm leading-6 ${plan.featured ? "text-white/70" : "text-[#63777e]"}`}>
-              {plan.description}
-            </p>
-            <div className={`my-6 border-t ${plan.featured ? "border-white/15" : "border-[#e8eeea]"}`} />
-            <ul className="flex-1 space-y-3">
-              {plan.features.map((feature) => (
-                <li key={feature} className={`flex gap-2 text-sm ${plan.featured ? "text-white/85" : "text-[#536a70]"}`}>
-                  <Check size={17} className={`mt-0.5 shrink-0 ${plan.featured ? "text-[#a9d9c2]" : "text-[#52936c]"}`} />
-                  {feature}
-                </li>
-              ))}
-            </ul>
+            <div className="my-6 flex-1 border-t border-[#e8eeea]" />
             <Link
-              href="/contact"
-              className={`mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition hover:-translate-y-0.5 ${
-                plan.featured
-                  ? "bg-white text-[#123d4b] hover:bg-[#e9f5eb]"
-                  : "border border-[#d8e2dc] text-[#18333c] hover:border-[#97b8af]"
+              href="/login?callbackUrl=%2Fdashboard%2Forders%2Fnew"
+              className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition hover:-translate-y-0.5 ${
+                index === 0 ? "bg-[#116c83] text-white hover:bg-[#0d5266]" : "border border-[#d8e2dc] text-[#18333c] hover:border-[#97b8af]"
               }`}
             >
-              Get started <ArrowRight size={15} />
+              Book this service <ArrowRight size={15} />
             </Link>
           </article>
         ))}
+        {plans.length === 0 && (
+          <p className="rounded-[18px] border border-dashed border-[#dce6e0] p-6 text-sm text-[#71847f] md:col-span-2 xl:col-span-3">
+            {services.length === 0
+              ? "Service pricing is being prepared. Please check back soon."
+              : "There are no services in this category yet. Contact us to discuss a custom plan."}
+          </p>
+        )}
       </div>
       <p className="mt-6 text-center text-xs leading-5 text-[#82938e]">
         Specialty items are priced separately. Your confirmed order total is always shared before delivery.

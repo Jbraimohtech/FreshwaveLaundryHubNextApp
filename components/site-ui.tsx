@@ -128,7 +128,7 @@ export function ServiceCard({
             <p className="text-xs text-[#859692]">{service.unit}</p>
           </div>
           <Link
-            href="/contact"
+            href="/login?callbackUrl=%2Fdashboard%2Forders%2Fnew"
             className="inline-flex items-center gap-1 text-sm font-semibold text-[#116c83] transition group-hover:gap-2"
           >
             Book <ArrowRight size={15} />

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Clock3, Mail, MapPin, Phone } from "lucide-react";
-import { PageHero } from "@/components/site-ui";
-import BookingForm from "@/components/booking-form";
+import { ButtonLink, PageHero } from "@/components/site-ui";
 import Reveal from "@/components/reveal";
 
 export const metadata: Metadata = {
   title: "Book a laundry pickup",
   description:
-    "Request a FreshWave laundry pickup or get in touch about wash & fold, dry cleaning, and business laundry service.",
+    "Get in touch with FreshFold Laundry or sign in to request a wash & fold, dry cleaning, or business laundry pickup.",
 };
 
 export default function ContactPage() {
@@ -16,16 +16,24 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact & booking"
         title="Your next fresh start is a few taps away."
-        description="Tell us a little about your laundry and when you’d like us to pick it up. Our team will confirm your service and delivery details."
+        description="Book a pickup from your account, or get in touch with our team about the right care for your laundry."
       />
       <section className="page-shell grid gap-8 py-12 sm:py-16 lg:grid-cols-[1.15fr_.85fr] lg:gap-10">
-        <Reveal className="rounded-[22px] border border-[#e5ece7] bg-white p-6 sm:p-9">
-          <p className="eyebrow">Request a pickup</p>
-          <h2 className="mt-2 text-2xl font-medium tracking-[-.05em]">Where should we meet you?</h2>
-          <p className="mt-2 mb-7 text-sm leading-6 text-[#63777e]">
-            Fields marked with * are required. We’ll follow up to confirm availability.
+        <Reveal className="flex flex-col items-start justify-center rounded-[22px] border border-[#e5ece7] bg-white p-6 sm:p-9">
+          <p className="eyebrow">Ready for a fresh start?</p>
+          <h2 className="mt-2 text-2xl font-medium tracking-[-.05em]">Book a pickup from your account.</h2>
+          <p className="mt-3 max-w-lg text-sm leading-7 text-[#63777e]">
+            Save your pickup address, choose a service and a time, and keep an eye on every order from your FreshFold dashboard.
           </p>
-          <BookingForm />
+          <div className="mt-6 flex flex-wrap gap-3">
+            <ButtonLink href="/login?callbackUrl=%2Fdashboard%2Forders%2Fnew">Book a pickup</ButtonLink>
+            <Link href="/register" className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#d8e2dc] px-5 text-sm font-semibold text-[#18333c] hover:bg-[#f8fbf8]">
+              Create an account
+            </Link>
+          </div>
+          <p className="mt-7 border-t border-[#edf1ed] pt-5 text-xs leading-5 text-[#82938e]">
+            Have a question about the service? We’re here to help.
+          </p>
         </Reveal>
 
         <div className="space-y-5">
@@ -39,9 +47,9 @@ export default function ContactPage() {
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#116c83]"><Phone size={16} /></span>
                 +1 (555) 014-2024
               </a>
-              <a href="mailto:hello@freshwavelaundry.com" className="flex items-center gap-3 text-sm font-medium text-[#294952] hover:text-[#116c83]">
+              <a href="mailto:hello@freshfoldlaundry.com" className="flex items-center gap-3 text-sm font-medium text-[#294952] hover:text-[#116c83]">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#116c83]"><Mail size={16} /></span>
-                hello@freshwavelaundry.com
+                hello@freshfoldlaundry.com
               </a>
               <p className="flex items-center gap-3 text-sm font-medium text-[#294952]">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#116c83]"><Clock3 size={16} /></span>
@@ -52,14 +60,14 @@ export default function ContactPage() {
           <Reveal>
             <div className="relative min-h-[245px] overflow-hidden rounded-[22px] border border-[#e0e9e3] bg-[#eaf2ee]">
               <iframe
-                title="Google Maps search for FreshWave LaundryHub"
-                src="https://www.google.com/maps?q=FreshWave%20LaundryHub&output=embed"
+                title="Google Maps search for FreshFold Laundry"
+                src="https://www.google.com/maps?q=FreshFold%20Laundry&output=embed"
                 className="absolute inset-0 h-full w-full border-0 opacity-80"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
               <a
-                href="https://www.google.com/maps/search/?api=1&query=FreshWave+LaundryHub"
+                href="https://www.google.com/maps/search/?api=1&query=FreshFold+Laundry"
                 target="_blank"
                 rel="noreferrer"
                 className="absolute bottom-3 left-3 inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-semibold text-[#294952] shadow-sm"

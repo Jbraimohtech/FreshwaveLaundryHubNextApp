@@ -5,7 +5,7 @@ import FAQList from "@/components/faq-list";
 export const metadata: Metadata = {
   title: "Laundry service FAQs",
   description:
-    "Find answers about FreshWave laundry pickup, delivery, cleaning preferences, turnaround times, and pricing.",
+    "Find answers about FreshFold laundry pickup, delivery, cleaning preferences, turnaround times, and pricing.",
 };
 
 export default function FAQPage() {
@@ -14,7 +14,7 @@ export default function FAQPage() {
       <PageHero
         eyebrow="Frequently asked questions"
         title="Good questions. Clear answers."
-        description="Here are a few of the things people ask before their first FreshWave pickup. Still wondering? We’re only a message away."
+        description="Here are a few of the things people ask before their first FreshFold pickup. Still wondering? We’re only a message away."
       />
       <section className="page-shell grid gap-10 py-14 sm:py-20 lg:grid-cols-[.65fr_1.35fr] lg:gap-20">
         <div>

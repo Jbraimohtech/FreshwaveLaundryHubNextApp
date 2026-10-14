@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FreshFold Laundry
 
-## Getting Started
+FreshFold is a Next.js App Router laundry service with public marketing pages, email/password accounts, customer order management, saved addresses, live order tracking, and an administrator console.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Next.js App Router, React, TypeScript, and Tailwind CSS
+- Auth.js credentials authentication with JWT sessions
+- PostgreSQL and Prisma
+- bcrypt password hashes and Zod input validation
+- Framer Motion and Lucide icons
+
+## Project structure
+
+```text
+app/
+  actions/                  Authenticated account, order, address, and admin actions
+  admin/                    Role-protected admin overview, orders, customers, and services
+  api/auth/[...nextauth]/   Auth.js endpoints
+  api/register/             Validated account creation endpoint
+  dashboard/                Protected customer overview, orders, addresses, and profile
+  login/                    Sign-in page
+  register/                 Account creation page
+  services/, pricing, ...   Public marketing pages
+auth.ts                     Auth.js configuration
+components/                 Shared UI, auth, dashboard, and admin forms
+lib/                        Prisma client, role guards, and presentation helpers
+prisma/                     PostgreSQL schema, migrations, and seed data
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Local setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Requirements: Node.js, npm, and a PostgreSQL database.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Install dependencies:
 
-## Learn More
+   ```bash
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Create a local environment file from the template:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```powershell
+   Copy-Item .env.example .env
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   Set `DATABASE_URL` to your PostgreSQL database, set `AUTH_SECRET` to a unique secret (generate one with `npx auth secret`), and choose a strong `ADMIN_EMAIL` and `ADMIN_PASSWORD`. The seed script creates the administrator from these values; never use the example password in a real deployment.
 
-## Deploy on Vercel
+3. Apply the schema and seed the initial services/admin account:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm run db:deploy
+   npm run db:seed
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   For local schema development, use `npm run db:migrate` instead of `db:deploy`; Prisma will create and apply a migration.
+
+4. Start the app:
+
+   ```bash
+   npm run dev
+   ```
+
+   Visit `http://localhost:3000`.
+
+## Database commands
+
+- `npm run db:generate` regenerates Prisma Client.
+- `npm run dev` and `npm run build` automatically regenerate Prisma Client first.
+- `npm run db:migrate` creates/applies a development migration.
+- `npm run db:deploy` applies committed migrations in a deployment.
+- `npm run db:seed` creates the initial admin and starter services.
+
+## Security and deployment notes
+
+- Customer pages and server actions verify the authenticated user. Order reads are scoped to the signed-in customer; administrative routes and mutations verify the `ADMIN` role on the server.
+- Public registration only creates `USER` accounts. Do not add a public role selector.
+- Deploy with HTTPS, a managed PostgreSQL service, a unique `AUTH_SECRET`, and a rate limit in front of registration and credential sign-in. Configure backups, monitoring, and your production service-area/contact details before launch.
+- Configure the deployment platform to run `npm run db:deploy` as a release step. Do not run development migrations automatically in production.
+- FreshFold's contact email, phone, map listing, service area, and starter pricing are example business settings. Update them in the app and seed data for the actual business.

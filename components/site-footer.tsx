@@ -13,10 +13,10 @@ export default function SiteFooter() {
             </span>
             <span className="leading-tight">
               <span className="block text-[15px] font-bold tracking-[-.04em]">
-                FreshWave
+                FreshFold
               </span>
               <span className="block text-[10px] font-medium tracking-[.11em] text-white/50">
-                LAUNDRYHUB
+                LAUNDRY
               </span>
             </span>
           </Link>
@@ -28,7 +28,7 @@ export default function SiteFooter() {
             href="https://www.instagram.com/"
             target="_blank"
             rel="noreferrer"
-            aria-label="FreshWave on Instagram"
+            aria-label="FreshFold on Instagram"
             className="mt-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white/75 transition hover:bg-white/10 hover:text-white"
           >
             <Camera size={17} />
@@ -63,11 +63,11 @@ export default function SiteFooter() {
           <ul className="mt-4 space-y-3">
             <li>
               <a
-                href="mailto:hello@freshwavelaundry.com"
+                href="mailto:hello@freshfoldlaundry.com"
                 className="flex items-center gap-3 text-sm text-white/80 transition hover:text-white"
               >
                 <Mail size={15} className="text-[#b9e0c9]" />
-                hello@freshwavelaundry.com
+                hello@freshfoldlaundry.com
               </a>
             </li>
             <li>
@@ -88,7 +88,7 @@ export default function SiteFooter() {
       </div>
       <div className="border-t border-white/10">
         <div className="page-shell flex flex-col gap-2 py-5 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
-          <p>© FreshWave LaundryHub. Made for easier days.</p>
+          <p>© FreshFold Laundry. Made for easier days.</p>
           <p>Thoughtful care. Lighter footprint.</p>
         </div>
       </div>

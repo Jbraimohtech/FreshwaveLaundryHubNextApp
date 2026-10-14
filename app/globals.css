@@ -13,7 +13,7 @@
 @theme inline {
   --color-background: var(--paper);
   --color-foreground: var(--ink);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-outfit);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -29,7 +29,7 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-outfit), Arial, Helvetica, sans-serif;
   font-size: 15px;
   line-height: 1.6;
   text-rendering: optimizeLegibility;

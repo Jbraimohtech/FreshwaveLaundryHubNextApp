@@ -12,9 +12,9 @@ import Reveal from "@/components/reveal";
 const icons = [CalendarDays, Sparkles, PackageCheck];
 
 export const metadata: Metadata = {
-  title: "How FreshWave pickup & delivery works",
+  title: "How FreshFold pickup & delivery works",
   description:
-    "See how easy FreshWave makes laundry day: schedule a pickup, let us clean with care, and get fresh laundry delivered.",
+    "See how easy FreshFold makes laundry day: schedule a pickup, let us clean with care, and get fresh laundry delivered.",
 };
 
 export default function HowItWorksPage() {
@@ -31,7 +31,7 @@ export default function HowItWorksPage() {
       </PageHero>
       <section className="page-shell py-16 sm:py-24">
         <SectionHeading
-          eyebrow="The FreshWave rhythm"
+          eyebrow="The FreshFold rhythm"
           title="From your doorstep to your drawer."
           description="We keep every step clear, so you always know what’s next."
         />

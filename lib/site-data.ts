@@ -113,7 +113,7 @@ export const steps = [
 export const testimonials = [
   {
     quote:
-      "I got my Sunday evenings back. FreshWave is easy to book, always on time, and my clothes come back beautifully folded.",
+      "I got my Sunday evenings back. FreshFold is easy to book, always on time, and my clothes come back beautifully folded.",
     name: "Maya R.",
     detail: "Weekly wash & fold",
     initials: "MR",
@@ -129,7 +129,7 @@ export const testimonials = [
     quote:
       "Dependable, friendly, and one less thing on my list. The little delivery updates are a lovely touch, too.",
     name: "Avery L.",
-    detail: "FreshWave customer",
+    detail: "FreshFold customer",
     initials: "AL",
   },
 ];

@@ -6,7 +6,10 @@ import {
   PackageCheck,
   Sparkles,
 } from "lucide-react";
-import { services, steps } from "@/lib/site-data";
+import { connection } from "next/server";
+import { steps } from "@/lib/site-data";
+import { prisma } from "@/lib/prisma";
+import { presentService } from "@/lib/service-presenter";
 import {
   ButtonLink,
   PriceCard,
@@ -45,7 +48,15 @@ const homeSteps = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  await connection();
+  const databaseServices = await prisma.service.findMany({
+    where: { active: true },
+    orderBy: { createdAt: "asc" },
+    take: 6,
+  });
+  const services = databaseServices.map(presentService);
+
   return (
     <>
       <section className="overflow-hidden pb-14 pt-12 sm:pb-20 sm:pt-16 lg:pb-24 lg:pt-20">
@@ -66,7 +77,7 @@ export default function Home() {
               the good stuff.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="/contact">Book a pickup</ButtonLink>
+              <ButtonLink href="/login?callbackUrl=%2Fdashboard%2Forders%2Fnew">Book a pickup</ButtonLink>
               <ButtonLink href="/services" variant="secondary">
                 Explore services
               </ButtonLink>
@@ -169,38 +180,33 @@ export default function Home() {
         <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
           <SectionHeading
             eyebrow="Good value, no guesswork"
-            title="A fresh start from $29."
-            description="Clear starting prices and pickup included, so it’s easy to plan your next laundry day."
+            title="Clear prices. No guesswork."
+            description="See service prices straight from our current menu, with the right unit and minimum charge right up front."
           />
           <TextLink href="/pricing">See all pricing</TextLink>
         </div>
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          <PriceCard
-            name="The essentials"
-            price="$29"
-            period="/ pickup"
-            description="A simple fresh start for your everyday laundry."
-            features={["Wash & fold up to 12 lb", "Free pickup & delivery", "Standard 48-hour return"]}
-          />
-          <PriceCard
-            name="The weekly reset"
-            price="$49"
-            period="/ pickup"
-            description="A little more breathing room in your week."
-            features={["Wash & fold up to 25 lb", "Free pickup & delivery", "Priority 24-hour return"]}
-            featured
-          />
-          <PriceCard
-            name="The whole hamper"
-            price="$79"
-            period="/ pickup"
-            description="Room for busy homes and laundry mountains."
-            features={["Wash & fold up to 45 lb", "Free pickup & delivery", "Priority 24-hour return"]}
-          />
+          {databaseServices.slice(0, 3).map((service) => (
+            <PriceCard
+              key={service.id}
+              name={service.name}
+              price={`$${service.pricePerUnit.toFixed(2)}`}
+              period={`/${service.unit.replace(/^per\s+/i, "")}`}
+              description={service.description}
+              features={[
+                `Category: ${service.category}`,
+                service.minimumCharge.greaterThan(0)
+                  ? `Minimum order $${service.minimumCharge.toFixed(2)}`
+                  : "No minimum service charge",
+                "Pickup & delivery available",
+              ]}
+            />
+          ))}
         </div>
-        <p className="mt-5 text-center text-xs text-[#82938e]">
-          Specialty cleaning priced by item. No surprise service fees.
-        </p>
+        {databaseServices.length === 0 && (
+          <p className="mt-6 text-center text-sm text-[#71847f]">Service prices are being prepared. Please check back soon.</p>
+        )}
+        <p className="mt-5 text-center text-xs text-[#82938e]">Your final order total is confirmed before processing.</p>
       </section>
 
       <section className="bg-white py-20 sm:py-24">
@@ -235,7 +241,7 @@ export default function Home() {
                 Book a pickup
               </ButtonLink>
               <a
-                href="mailto:hello@freshwavelaundry.com"
+                href="mailto:hello@freshfoldlaundry.com"
                 className="inline-flex min-h-12 items-center gap-2 rounded-full border border-white/25 px-5 text-sm font-medium text-white transition hover:bg-white/10"
               >
                 Ask us anything <ArrowUpRight size={16} />

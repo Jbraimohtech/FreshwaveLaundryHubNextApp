@@ -1,16 +1,38 @@
 import type { Metadata } from "next";
 import { CircleHelp, ShieldCheck } from "lucide-react";
+import { connection } from "next/server";
 import { ButtonLink, PageHero, SectionHeading } from "@/components/site-ui";
 import { PricingChooser } from "@/components/interactive-sections";
 import Reveal from "@/components/reveal";
+import { prisma } from "@/lib/prisma";
 
 export const metadata: Metadata = {
   title: "Laundry service pricing",
   description:
-    "Explore clear FreshWave residential and commercial laundry packages with pickup and delivery included.",
+    "Explore clear FreshFold residential and commercial laundry pricing with pickup and delivery included.",
 };
 
-export default function PricingPage() {
+export default async function PricingPage() {
+  await connection();
+  const services = await prisma.service.findMany({
+    where: { active: true },
+    orderBy: [{ category: "asc" }, { name: "asc" }],
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      category: true,
+      pricePerUnit: true,
+      unit: true,
+      minimumCharge: true,
+    },
+  });
+  const pricingServices = services.map((service) => ({
+    ...service,
+    price: service.pricePerUnit.toFixed(2),
+    minimumCharge: service.minimumCharge.toFixed(2),
+  }));
+
   return (
     <>
       <PageHero
@@ -19,7 +41,7 @@ export default function PricingPage() {
         description="Pick the plan that fits your week. Every package includes pickup and delivery, with your total confirmed before anything comes back to your door."
       />
       <section className="page-shell py-12 sm:py-16">
-        <PricingChooser />
+        <PricingChooser services={pricingServices} />
       </section>
       <section className="border-y border-[#e6ece7] bg-white py-16 sm:py-20">
         <div className="page-shell">
